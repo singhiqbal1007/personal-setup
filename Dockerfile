@@ -47,6 +47,3 @@ COPY zshrc /root/.zshrc
 RUN echo "git config --global user.name '${USER_NAME}'" >> /root/.zshrc
 RUN echo "git config --global user.email '${USER_EMAIL}'" >> /root/.zshrc
 RUN git config --global --add safe.directory '*'
-
-# change the shell to zsh
-RUN sed -i 's/\/bin\/bash/\/usr\/bin\/zsh/' /usr/local/bin/startup.sh
