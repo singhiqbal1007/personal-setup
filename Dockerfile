@@ -9,11 +9,11 @@ RUN apt-get update && \
     git \
     openssh-server \
     libmysqlclient-dev \
-    make \
-    vim
+    vim \
+    unzip
 
 # install nodejs and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 RUN apt install -y nodejs
 
 # install oh-my-zsh
@@ -26,16 +26,15 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 # zsh syntax highlighting
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# install heroku-cli
-RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+# install render-cli
+RUN curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
 
 RUN mkdir volume
 WORKDIR /root/volume
 
 # setup SSH Keys
-COPY .ssh/ /root/.ssh/
-RUN rm /root/.ssh/.gitignore && \
-    chmod 0700 /root/.ssh && \
+COPY ssh/ /root/.ssh/
+RUN chmod 0700 /root/.ssh && \
     chmod 600 /root/.ssh/* && \
     ssh-keyscan github.com > /root/.ssh/known_hosts
 
